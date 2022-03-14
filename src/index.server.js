@@ -7,11 +7,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // DB-CONNECT
-DB_USERNAME = process.env.DB_USERNAME
-DB_PASSWORD = process.env.DB_PASSWORD
-DB_DATABASE = process.env.DB_DATABASE
+const DB_USERNAME = process.env.DB_USERNAME
+const DB_PASSWORD = process.env.DB_PASSWORD
+const DB_DATABASE = process.env.DB_DATABASE
 
-mongoose.connect(`mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@e-commerce-db.qhacu.mongodb.net/${DB_DATABASE}?retryWrites=true&w=majority`)
+mongoose.connect(`mongodb+srv://root:admin@e-commerce-db.qhacu.mongodb.net/${DB_DATABASE}?retryWrites=true&w=majority`)
 .then(()=>{
     console.log("Database Connected");
 })
