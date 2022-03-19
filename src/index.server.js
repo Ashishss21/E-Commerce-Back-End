@@ -7,9 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // DB-CONNECT
-const DB_USERNAME = process.env.DB_USERNAME
-const DB_PASSWORD = process.env.DB_PASSWORD
-const DB_DATABASE = process.env.DB_DATABASE
+DB_DATABASE = process.env.DB_DATABASE
 
 mongoose.connect(`mongodb+srv://root:admin@e-commerce-db.qhacu.mongodb.net/${DB_DATABASE}?retryWrites=true&w=majority`)
 .then(()=>{
@@ -19,26 +17,22 @@ mongoose.connect(`mongodb+srv://root:admin@e-commerce-db.qhacu.mongodb.net/${DB_
     console.error(err);
 })
 
+// Routing
+
+const userRoutes = require('./routes/user');
+
 // calling ENV variables
 env.config();
 
 app.use(bodyParser());
 
-let PORT = process.env.PORT
+// Prefix Routing with /api
+app.use('/api',userRoutes);
 
-// Call env file to use creds
+
+// Post and localhost configuration
+
+let PORT = process.env.PORT
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);
 });
-
-// Default Route
-app.get('/',(req,res,next)=>{
-    res.status(200);
-    res.send("Hello from get request");
-});
-
-// Default Post Request
-app.post('/',(req,res,next)=>{
-    res.status(200);
-    res.send(`Hello ${req.body}`);
-})
