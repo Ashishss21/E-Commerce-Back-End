@@ -26,7 +26,7 @@ mongoose
 
 // Routing
 
-const userRoutes = require("./routes/user");
+const authRoutes = require("./routes/auth");
 
 // calling ENV variables
 env.config();
@@ -34,7 +34,7 @@ env.config();
 app.use(bodyParser());
 
 // Prefix Routing with /api
-app.use("/api", userRoutes);
+app.use("/api", authRoutes);
 
 // Post and localhost configuration
 

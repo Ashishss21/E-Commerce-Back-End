@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 
+// Mongoose Schema for user databse design
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -49,15 +50,22 @@ const userSchema = new mongoose.Schema({
   }
 },{timestamps:true});
 
-
+// Virtual Password/ Encrypted Passowrd genration
 userSchema.virtual('password')
 .set(function(password){
     this.hash_password = bcrypt.hashSync(password, 10);
 });
 
+// Virtual Key to add firstname and lastname and generate fullname 
+userSchema.virtual('fullName')
+.get(function(){
+  return `${this.firstName} ${this.lastName}`;
+});
+
+// User Authentication and Validation function
 userSchema.methods = {
     authenticate: function(){
-        return bcrypt.compare(password, this.hash_password);
+        return bcrypt.compareSync(password, this.hash_password);
     }
 }
 
