@@ -48,12 +48,13 @@ exports.signin = (req, res) => {
     // If user exists fetch details from database
     if (user) {
       if(user.authenticate(req.body.password)){
-        const token = jwt.sign({ _id: user._id},  process.env.JWT-SECRET, { expiresIn: '1h'} );
-        const { firstName, lastName, email, role, fullName } = user;
+        // Fetch Details for particular user Token
+        const token = jwt.sign({ _id: user._id},  process.env.JWT_SECRET, { expiresIn: '1h'} );
+        const { _id, firstName, lastName, email, role, fullName } = user;
         res.status(200).json({
           token, 
           user: {
-            firstName, lastName, email, role, fullName
+            _id, firstName, lastName, email, role, fullName
           }
         });
       }
