@@ -27,6 +27,7 @@ mongoose
 // Routing
 
 const authRoutes = require("./routes/auth");
+const adminRoutes = require("./routes/admin/auth");
 
 // calling ENV variables
 env.config();
@@ -35,7 +36,8 @@ app.use(bodyParser());
 
 // Prefix Routing with /api
 app.use("/api", authRoutes);
-
+// Admin Admin Routes
+app.use('/api', adminRoutes);
 // Post and localhost configuration
 
 let PORT = process.env.PORT;
