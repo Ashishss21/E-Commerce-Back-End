@@ -1,8 +1,9 @@
 const User = require("../models/user");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // Signin function Authentication
 exports.signup = (req, res) => {
+
   User.findOne({ email: req.body.email }).exec((error, user) => {
     // If user already exists
     if (user)
@@ -47,21 +48,27 @@ exports.signin = (req, res) => {
 
     // If user exists fetch details from database
     if (user) {
-      if(user.authenticate(req.body.password)){
+      if (user.authenticate(req.body.password)) {
         // Fetch Details for particular user Token
-        const token = jwt.sign({ _id: user._id},  process.env.JWT_SECRET, { expiresIn: '1h'} );
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: "1h",
+        });
         const { _id, firstName, lastName, email, role, fullName } = user;
         res.status(200).json({
-          token, 
+          token,
           user: {
-            _id, firstName, lastName, email, role, fullName
-          }
+            _id,
+            firstName,
+            lastName,
+            email,
+            role,
+            fullName,
+          },
         });
-      }
-      else{
+      } else {
         return res.status(400).json({
-          message: 'Invalid Password'
-        })
+          message: "Invalid Password",
+        });
       }
     } else {
       // Else return error
@@ -71,7 +78,7 @@ exports.signin = (req, res) => {
 };
 
 // Route to apply authentication is necessary for /profile
-exports.requireSignIn = (req, res, next) =>{
+exports.requireSignIn = (req, res, next) => {
   // Fetch token from authorization body of api
   const token = req.headers.authorization.split(" ")[1];
   const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -79,4 +86,4 @@ exports.requireSignIn = (req, res, next) =>{
   req.user = user;
   console.log(token);
   next();
-}
+};
